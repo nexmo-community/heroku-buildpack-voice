@@ -1,0 +1,39 @@
+#!/bin/bash
+
+
+#Params
+api_key=`cat $3/API_KEY` 
+api_secret=`cat $3/API_SECRET`
+cc=`cat $3\CC`
+name=`cat $3/HEROKU_APP_NAME`
+baseurl="https://$name.herokuapp.com"
+
+#Create Application
+echo "-----> Creating New Nexmo Applicaiton"
+curl -s -o /tmp/output.json https://api.nexmo.com/v1/applications -d api_key=$api_key -d api_secret=$api_secret -d name=TEST-$name -d type=voice -d answer_url=$baseurl/ncco -d event_url=$baseurl/event
+app_id=`cat /tmp/app.json | python -mjson.tool | grep id | awk -F ":" {'print $2'} | awk '{print substr($0, 3, length($0) - 4)}'`
+private_key=`cat /tmp/app.json | python -mjson.tool | grep private_key | awk -F ":" {'print $2'} | awk '{print substr($0, 3, length($0) - 4)}'`
+
+echo "-----> Setting Application Env Vars"
+echo $app_id > $3/APP_ID
+echo $private_key > $3/PRIVATE_KEY
+
+#Search for  and Buy a Number
+echo "-----> Searching for Number in $cc"
+curl -s -o /tmp/number.json -H "Accept: application/json" https://rest.nexmo.com/number/search/$api_key/$api_secret/$cc?size=1 
+lvn=`cat /tmp/number.json | python -mjson.tool | grep msisdn | awk -F ":" {'print $2'} | awk '{print substr($0, 3, length($0) - 4)}'`
+
+echo "-----> Purchasing Number: $lvn"
+curl -s https://rest.nexmo.com/number/buy -d api_key=$api_key -d api_secret=$api_secret -d country=$cc -d msisdn=$lvn
+echo "-----> Setting Number Env Vars"
+echo $lvn > $3/MY_LVN
+
+
+#Link Number to App
+echo "-----> Linkin Number to Application"
+curl -s  https://rest.nexmo.com/number/update -d api_key=$api_key -d api_secret=$api_secret  -d country=$cc -d msisdn=$lvn -d voiceCallbackType='app' -d voiceCallbackValue=$app_id
+echo "DONE" > $3/CREATE_NEXMO_APP
+
+echo "\n"
+echo "      Nexmo Setup COMPLETE Your Number is: $lvn"
+echo "\n"

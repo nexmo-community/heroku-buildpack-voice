@@ -1,0 +1,39 @@
+
+{
+  "name": "Nexmo Demo App",
+  "description": "Example of Nexmo  app",
+  "repository": "https://github.com/nexmo-community/click2call",
+  "logo": "https://avatars0.githubusercontent.com/u/551057?v=3&s=200",
+  "env": {
+    "CREATE_NEXMO_APP": {
+      "description": "Should the application automatically create a nexmo application and purchase a new phone number",
+      "value": "yes"
+    },
+    "API_KEY": {
+      "description": "Your Nexmo API Key",
+      "value": ""
+    },
+    "API_SECRET": {
+      "description": "Your Nexmo API Secret",
+      "value": ""
+    },
+    "CC": {
+      "description": "The ISO 3361 Country Code wheere you want the number to be purcahsed eg, US, GB, ES etc.",
+      "value": ""
+    }
+  },
+  "buildpacks": [
+     {
+       "url": "https://github.com/nexmo-communuty/heroku-buildpack-voice"
+     },
+     {
+        "url": "heroku/python"
+     }
+   ],
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "free"
+   }
+  }
+}
