@@ -13,7 +13,7 @@ cc=`cat $3/CC`
 
 #Create Application
 echo "-----> Creating New Nexmo Applicaiton"
-curl -s -o /tmp/output.json https://api.nexmo.com/v1/applications -d api_key=$api_key -d api_secret=$api_secret -d name=HEROKU-TEMP -d type=voice -d answer_url=$http://example.com -d event_url=http://example.com
+curl -s -o /tmp/app.json https://api.nexmo.com/v1/applications -d api_key=$api_key -d api_secret=$api_secret -d name=HEROKU-TEMP -d type=voice -d answer_url=$http://example.com -d event_url=http://example.com
 app_id=`cat /tmp/app.json | python -mjson.tool | grep id | awk -F ":" {'print $2'} | awk '{print substr($0, 3, length($0) - 4)}'`
 private_key=`cat /tmp/app.json | python -mjson.tool | grep private_key | awk -F ":" {'print $2'} | awk '{print substr($0, 3, length($0) - 4)}'`
 
