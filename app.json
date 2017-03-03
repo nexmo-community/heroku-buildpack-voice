@@ -11,20 +11,24 @@
     },
     "API_KEY": {
       "description": "Your Nexmo API Key",
-      "value": ""
+      "value": "",
+      "required" : false
     },
     "API_SECRET": {
       "description": "Your Nexmo API Secret",
-      "value": ""
+      "value": "",
+      "required" : false
     },
     "CC": {
       "description": "The ISO 3361 Country Code wheere you want the number to be purcahsed eg, US, GB, ES etc.",
-      "value": ""
+      "value": "",
+      "required" : false
+      
     }
   },
   "buildpacks": [
      {
-       "url": "https://github.com/nexmo-communuty/heroku-buildpack-voice"
+       "url": "https://github.com/nexmo-community/heroku-buildpack-voice"
      },
      {
         "url": "heroku/python"
