@@ -34,6 +34,9 @@
         "url": "heroku/python"
      }
    ],
+  "scripts": {
+       "postdeploy": "postDeploy.sh"
+     },
   "formation": {
     "web": {
       "quantity": 1,
