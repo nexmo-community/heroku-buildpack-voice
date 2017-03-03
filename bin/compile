@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "DEBUG ENV DIR IS $3"
+ls -l $3
 
 #Params
 api_key=`cat $3/API_KEY` 
