@@ -33,11 +33,12 @@ echo $lvn > $3/MY_LVN
 
 
 #Link Number to App
-echo "-----> Linkin Number to Application"
+echo "-----> Linking Number to Application"
 curl -s  https://rest.nexmo.com/number/update -d api_key=$api_key -d api_secret=$api_secret  -d country=$cc -d msisdn=$lvn -d voiceCallbackType='app' -d voiceCallbackValue=$app_id
 echo "DONE" > $3/CREATE_NEXMO_APP
 
 #Add postDeploy script to build dir
+echo "-----> Adding post deploy script to build"
 curl -s -o $1/postDeploy.sh https://raw.githubusercontent.com/nexmo-community/heroku-buildpack-voice/master/postDeploy.sh
 
 echo "\n"
