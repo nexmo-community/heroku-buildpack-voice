@@ -18,9 +18,6 @@ curl -s -o /tmp/app.json https://api.nexmo.com/v1/applications -d api_key=$api_k
 app_id=`cat /tmp/app.json | python -mjson.tool | grep id | awk -F ":" {'print $2'} | awk '{print substr($0, 3, length($0) - 4)}'`
 private_key=`cat /tmp/app.json | python -mjson.tool | grep private_key | awk -F ":" {'print $2'} | awk '{print substr($0, 3, length($0) - 4)}'`
 
-echo "-----> Setting Application Env Vars"
-echo $app_id > $3/APP_ID
-echo $private_key > $3/PRIVATE_KEY
 
 #Search for  and Buy a Number
 echo "-----> Searching for Number in $cc"
@@ -29,14 +26,20 @@ lvn=`cat /tmp/number.json | python -mjson.tool | grep msisdn | awk -F ":" {'prin
 
 echo "-----> Purchasing Number: $lvn"
 curl -s https://rest.nexmo.com/number/buy -d api_key=$api_key -d api_secret=$api_secret -d country=$cc -d msisdn=$lvn
-echo "-----> Setting Number Env Vars"
-echo $lvn > $3/MY_LVN
 
 
 #Link Number to App
 echo "-----> Linking Number to Application"
 curl -s  https://rest.nexmo.com/number/update -d api_key=$api_key -d api_secret=$api_secret  -d country=$cc -d msisdn=$lvn -d voiceCallbackType='app' -d voiceCallbackValue=$app_id
-echo "DONE" > $3/CREATE_NEXMO_APP
+
+
+
+echo "-----> Setting Env Vars"
+touch $1/.env
+echo "MY_LVN=$lvn" >> $1/.env
+echo "APP_ID=$app_id" >> $1/.env
+echo "PRIVATE_KEY=$lvn" >> $1/.env
+
 
 
 echo "\n"
