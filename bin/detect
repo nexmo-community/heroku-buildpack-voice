@@ -1,2 +1,10 @@
-#!/bin/sh
-exit 1
+#!/usr/bin/env bash
+
+
+BUILD_DIR=$1
+
+if [ ! -f $BUILD_DIR/nexmo.txt ] then
+  exit 1
+fi
+
+echo Nexmo
