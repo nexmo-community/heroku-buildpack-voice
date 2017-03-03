@@ -38,7 +38,7 @@ curl -s  https://rest.nexmo.com/number/update -d api_key=$api_key -d api_secret=
 echo "DONE" > $3/CREATE_NEXMO_APP
 
 #Add postDeploy script to build dir
-curl -s -o $2/postDeploy.sh https://raw.githubusercontent.com/nexmo-community/heroku-buildpack-voice/master/postDeploy.sh
+curl -s -o $1/postDeploy.sh https://raw.githubusercontent.com/nexmo-community/heroku-buildpack-voice/master/postDeploy.sh
 
 echo "\n"
 echo "      Nexmo Setup COMPLETE Your Number is: $lvn"
