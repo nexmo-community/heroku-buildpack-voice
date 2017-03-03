@@ -9,6 +9,9 @@
       "description": "Should the application automatically create a nexmo application and purchase a new phone number",
       "value": "yes"
     },
+    "NAME": {
+      "description": "The Heroku app name, enter it exactly the same as you have above",
+    },
     "API_KEY": {
       "description": "Your Nexmo API Key",
       "value": "",
@@ -34,9 +37,6 @@
         "url": "heroku/python"
      }
    ],
-  "scripts": {
-       "postdeploy": "postDeploy.sh"
-   },
   "formation": {
     "web": {
       "quantity": 1,

@@ -10,10 +10,11 @@ echo "------------------------------------"
 api_key=`cat $3/API_KEY` 
 api_secret=`cat $3/API_SECRET`
 cc=`cat $3/CC`
+name=`cat $3/NAME`
 
 #Create Application
 echo "-----> Creating New Nexmo Applicaiton"
-curl -s -o /tmp/app.json https://api.nexmo.com/v1/applications -d api_key=$api_key -d api_secret=$api_secret -d name=HEROKU-TEMP -d type=voice -d answer_url=$http://example.com -d event_url=http://example.com
+curl -s -o /tmp/app.json https://api.nexmo.com/v1/applications -d api_key=$api_key -d api_secret=$api_secret -d name=HEROKU-TEMP -d type=voice -d answer_url=https://$name.herokuapp.com/ncco -d event_url=https://$name.herokuapp.com/event
 app_id=`cat /tmp/app.json | python -mjson.tool | grep id | awk -F ":" {'print $2'} | awk '{print substr($0, 3, length($0) - 4)}'`
 private_key=`cat /tmp/app.json | python -mjson.tool | grep private_key | awk -F ":" {'print $2'} | awk '{print substr($0, 3, length($0) - 4)}'`
 
@@ -37,11 +38,6 @@ echo "-----> Linking Number to Application"
 curl -s  https://rest.nexmo.com/number/update -d api_key=$api_key -d api_secret=$api_secret  -d country=$cc -d msisdn=$lvn -d voiceCallbackType='app' -d voiceCallbackValue=$app_id
 echo "DONE" > $3/CREATE_NEXMO_APP
 
-#Add postDeploy script to build dir
-echo "-----> Adding post deploy script to $1"
-curl -s -o $1/postDeploy.sh https://raw.githubusercontent.com/nexmo-community/heroku-buildpack-voice/master/postDeploy.sh
-
-ls -l $1
 
 echo "\n"
 echo "      Nexmo Setup COMPLETE Your Number is: $lvn"
