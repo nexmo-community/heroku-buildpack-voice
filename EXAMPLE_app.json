@@ -36,7 +36,7 @@
    ],
   "scripts": {
        "postdeploy": "postDeploy.sh"
-     },
+   },
   "formation": {
     "web": {
       "quantity": 1,
