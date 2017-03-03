@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # this pack is valid for apps with a hello.txt in the root
-if if [ "$CREATE_NEXMO_APP" = "yes" ]; then
+if [ "$CREATE_NEXMO_APP" = "yes" ]; then
   echo "Registering New Nexmo Applicaiton and Phone Number"
   exit 0
 else
