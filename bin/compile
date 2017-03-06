@@ -40,6 +40,9 @@ echo "MY_LVN=$lvn" >> $1/.env
 echo "APP_ID=$app_id" >> $1/.env
 echo "PRIVATE_KEY=$lvn" >> $1/.env
 
+echo "-----> Adding .profile.d script"
+curl -s -o $1/nexmo_env_setup.sh https://raw.githubusercontent.com/nexmo-community/heroku-buildpack-voice/master/nexmo_env_setup.sh
+
 
 
 echo "\n"
