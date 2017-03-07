@@ -13,8 +13,8 @@ app_id=`cat /tmp/app.json | python -mjson.tool | grep id | awk -F ":" {'print $2
 echo $app_id
 
 echo "-----> Setting Private Key"
-cat /tmp/app.json | python -mjson.tool | grep private_key | awk -F ":" {'print $2'} | awk '{print substr($0, 3, length($0) - 4)}' > /tmp/private.key
-private_key=`cat /tmp/private.key | tr -d '\\n'`
+cat /tmp/app.json | python -mjson.tool | grep private_key | awk -F ":" {'print $2'} | awk '{print substr($0, 3, length($0) - 4)}' > $1/private.key
+private_key=`cat $1/private.key | tr -d '\\n'`
 echo $private_key
 
 #Search for  and Buy a Number
