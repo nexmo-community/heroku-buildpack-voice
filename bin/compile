@@ -10,11 +10,13 @@ name=`cat $3/NAME`
 echo "-----> Creating New Nexmo Applicaiton"
 curl -s -o /tmp/app.json https://api.nexmo.com/v1/applications -d api_key=$api_key -d api_secret=$api_secret -d name=HEROKU-$name -d type=voice -d answer_url=https://$name.herokuapp.com/ncco -d event_url=https://$name.herokuapp.com/event
 app_id=`cat /tmp/app.json | python -mjson.tool | grep id | awk -F ":" {'print $2'} | awk '{print substr($0, 3, length($0) - 4)}'`
-private_key=`cat /tmp/app.json | python -mjson.tool | grep private_key | awk -F ":" {'print $2'} | awk '{print substr($0, 3, length($0) - 4)}' | tr -d '\\n'`
-
 echo $app_id
-echo "-------"
+
+echo "-----> Setting Private Key"
+cat /tmp/app.json | python -mjson.tool | grep private_key | awk -F ":" {'print $2'} | awk '{print substr($0, 3, length($0) - 4)}' > /tmp/private.key
+private_key=`cat /tmp/private.key | tr -d '\\n'`
 echo $private_key
+
 #Search for  and Buy a Number
 echo "-----> Searching for Number in $cc"
 curl -s -o /tmp/number.json -H "Accept: application/json" https://rest.nexmo.com/number/search/$api_key/$api_secret/$cc?size=1 
