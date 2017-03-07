@@ -1,3 +1,3 @@
 #!/bin/bash
-source /tmp/.env
+source .env
 export $(cut -d= -f1 .env)
