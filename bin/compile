@@ -20,7 +20,7 @@ data = json.loads(datafile)
 
 with open('/tmp/private.key', 'w') as f:
     f.write(data['keys']['private_key'])
-print data['id']
+print(data['id'])
 END
 `
 
@@ -34,7 +34,7 @@ import json
 with open('/tmp/number.json') as f:
     datafile = f.read()
 data = json.loads(datafile)
-print data['numbers'][0]['msisdn']
+print(data['numbers'][0]['msisdn'])
 END
 `
 
