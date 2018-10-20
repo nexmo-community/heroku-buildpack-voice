@@ -4,4 +4,4 @@
 #Debug
 echo "--------Printing ENV Vars-----------"
 env
-echo "-
+echo "-"
