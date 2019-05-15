@@ -1,7 +1,6 @@
 # Heroku Buildpack - Voice
 
-Simple Heroku Buildpack to setup a Nexmo Voice application, purchse a new Phone Number and Link that number to the applicaiton.
-
+Use this Heroku Buildpack to set up a Nexmo Voice application, purchase a new Phone Number and Link that number to the application.
 
 ## Use
 This buildpack is designed to be used in conjunction with an `app.json` manifest.
