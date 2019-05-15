@@ -10,7 +10,7 @@
       "value": "yes"
     },
     "NAME": {
-      "description": "The Heroku app name, enter it exactly the same as you have above",
+      "description": "The Heroku app name, enter it exactly the same as you have above"
     },
     "API_KEY": {
       "description": "Your Nexmo API Key",
