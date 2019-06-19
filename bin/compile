@@ -68,7 +68,11 @@ echo "-----> Setting Env Vars"
 touch $1/.env
 echo "MY_LVN=$all_lvns" >> $1/.env
 echo "APP_ID=$app_id" >> $1/.env
-echo "PRIVATE_KEY='`cat /tmp/private.key`'" >> $1/.env
+
+# Private keys need to be on a single line for some languages
+echo -n 'PRIVATE_KEY="' >> $1/.env
+cat /tmp/private.key | awk '/"\n"$/ {print; next} {printf "%s\\n", $0}' >> $1/.env
+echo '"' >> $1/.env
 
 echo "-----> Adding .profile.d script"
 curl -s -o $1/.profile.d/nexmo_env_setup.sh https://raw.githubusercontent.com/nexmo-community/heroku-buildpack-voice/master/nexmo_env_setup.sh
