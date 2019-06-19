@@ -32,9 +32,13 @@ print(data['id'])
 END
 `
 
-#Search for  and Buy a Number
-echo "-----> Searching for Number in $cc"
-curl -s -o /tmp/number.json -H "Accept: application/json" https://rest.nexmo.com/number/search/$api_key/$api_secret/$cc?size=1 
+#Search for and Buy a Number
+all_lvns=''
+IFS=',' read -r -a countries <<< "$cc"
+
+for country in "${countries[@]}"; do
+echo "-----> Searching for Number in $country"
+curl -s -o /tmp/number.json -H "Accept: application/json" https://rest.nexmo.com/number/search/$api_key/$api_secret/$country?size=1 
 
 lvn=`python << END
 import json
@@ -47,18 +51,22 @@ END
 `
 
 echo "-----> Purchasing Number: $lvn"
-curl -s https://rest.nexmo.com/number/buy -d api_key=$api_key -d api_secret=$api_secret -d country=$cc -d msisdn=$lvn
+curl -s https://rest.nexmo.com/number/buy -d api_key=$api_key -d api_secret=$api_secret -d country=$country -d msisdn=$lvn
 
 
 #Link Number to App
-echo "-----> Linking Number to Application"
-curl -s  https://rest.nexmo.com/number/update -d api_key=$api_key -d api_secret=$api_secret  -d country=$cc -d msisdn=$lvn -d voiceCallbackType='app' -d voiceCallbackValue=$app_id
+echo "-----> Linking Number to Application: $lvn"
+curl -s  https://rest.nexmo.com/number/update -d api_key=$api_key -d api_secret=$api_secret  -d country=$country -d msisdn=$lvn -d voiceCallbackType='app' -d voiceCallbackValue=$app_id
 
+all_lvns="$all_lvns$lvn,"
 
+done
+
+all_lvns=$(echo $all_lvns | sed 's/,$//')
 
 echo "-----> Setting Env Vars"
 touch $1/.env
-echo "MY_LVN=$lvn" >> $1/.env
+echo "MY_LVN=$all_lvns" >> $1/.env
 echo "APP_ID=$app_id" >> $1/.env
 echo "PRIVATE_KEY='`cat /tmp/private.key`'" >> $1/.env
 
@@ -71,5 +79,5 @@ echo $app_id > $2/APP_ID
 
 
 echo "\n"
-echo "      Nexmo Setup COMPLETE Your Number is: $lvn"
+echo "      Nexmo Setup COMPLETE Your Numbers: $all_lvns"
 echo "\n"
