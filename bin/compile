@@ -1,4 +1,12 @@
 #!/bin/bash
+# bin/compile <build-dir> <cache-dir> <env-path>
+
+APPLICATION_ID=$(cat $2/APP_ID)
+
+if [ ! -z "$APPLICATION_ID" ]; then
+    echo "Nexmo application ($APPLICATION_ID) already configured"
+    exit 0
+fi
 
 #Params
 api_key=`cat $3/API_KEY` 
@@ -56,6 +64,9 @@ echo "PRIVATE_KEY='`cat /tmp/private.key`'" >> $1/.env
 
 echo "-----> Adding .profile.d script"
 curl -s -o $1/.profile.d/nexmo_env_setup.sh https://raw.githubusercontent.com/nexmo-community/heroku-buildpack-voice/master/nexmo_env_setup.sh
+
+echo "-----> Adding application ID to cache"
+echo $app_id > $2/APP_ID
 
 
 

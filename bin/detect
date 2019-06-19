@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
+# bin/detect <build-dir>
 
-echo "Nexmo"
 exit 0
